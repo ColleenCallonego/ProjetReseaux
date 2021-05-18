@@ -2,6 +2,7 @@ package fr.ul.miage;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.StringTokenizer;
 
 public class Client extends Thread{
     public Socket socket;
@@ -24,7 +25,7 @@ public class Client extends Thread{
         }
     }
 
-    public String getfilename(String requete){
+    public InputStream getfilename(String requete, PrintStream out){
         String filename = "sites/";
         StringTokenizer st = new StringTokenizer(requete);
         try{
@@ -32,7 +33,7 @@ public class Client extends Thread{
                 filename += st.nextToken();
             }
             else{
-                throw new FileNotFoundException(); // Bad request
+                throw new BadRequestException(); // Bad request
             }
             //si le filename fini par "/" alors on doit accès au index.html du chemin
             if (filename.endsWith("/")){
@@ -44,11 +45,30 @@ public class Client extends Thread{
             }
             //pour remplacer les "/" par des "\"
             filename = filename.replace('/', File.separator.charAt(0));
+            InputStream f = new FileInputStream(filename);
+            return f;
         }
         catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
+            out.println("HTTP/1.0 404 Not Found\r\n" + "Content-type: text/html\r\n\r\n"
+                    + "<html><head></head><body>" + " Error 404 - Page not found</body></html>\n");
+            out.close();
+            try {
+                socket.close();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         }
-        return filename;
+        catch (BadRequestException e){
+            out.println("HTTP/1.0 400 Bad Request Not Found\r\n" + "Content-type: text/html\r\n\r\n"
+                    + "<html><head></head><body>" + " Error 400 - Bad Request</body></html>\n");
+            out.close();
+            try {
+                socket.close();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
+        return null;
     }
 
     public String getMimeType(String filename){
