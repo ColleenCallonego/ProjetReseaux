@@ -97,7 +97,7 @@ public class Client extends Thread{
                                 filename = properties.repertoireSites + "/verti/index.html";
                             }
                             else{
-                                throw new UnauthorizedException(); // Unauthorized
+                                throw new ForbiddenException(); // Forbidden
                             }
                         }
                     }
@@ -129,7 +129,7 @@ public class Client extends Thread{
                                 filename = properties.repertoireSites + "/dopetrope/index.html";
                             }
                             else{
-                                throw new UnauthorizedException(); // Unauthorized
+                                throw new ForbiddenException(); // Forbidden
                             }
                         }
                     }
@@ -203,6 +203,16 @@ public class Client extends Thread{
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
+        } catch (ForbiddenException e) { //Erreur 403
+            out.println("HTTP/1.0 403 Forbidden\r\n" + "Content-type: text/html\r\n\r\n"
+                    + "<html><head></head><body>" + " Error 403 - Forbidden -- Write www[...]/@user:password@ to acces</body></html>\n");
+            out.close();
+            try {
+                socket.close();
+            }
+            catch (IOException x) {
+                System.out.println(x.getMessage());
+            }
         }
     }
 
