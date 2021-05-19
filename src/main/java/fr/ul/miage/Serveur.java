@@ -5,27 +5,39 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Properties;
 
 public class Serveur{
     public ServerSocket server;
-    public String name;
+    public String address;
     public Properties properties;
 
-    public Serveur (String name, Properties p){
-        this.name = name;
+    /**
+     * Constructeur
+     * @param address
+     * @param p
+     */
+    public Serveur (String address, Properties p){
+        this.address = address;
         this.properties = p;
     }
 
+    /**
+     * Méthode pour lancer le ServeurWeb
+     * Il va attendre des connexions
+     */
     public void go(){
         try{
-            InetAddress bindAddress = InetAddress.getByName(name);
+            InetAddress bindAddress = InetAddress.getByName(address);
             server = new ServerSocket(properties.port, 1, bindAddress);
             while (true){
                 try {
-                    Socket s = server.accept(); // En attente d'une connexion
-                    new Client(s, properties); // Lance un nouveau thread pour chaque connexion
-                } catch (Exception e) {
+                    // En attente d'une connexion
+                    Socket s = server.accept();
+
+                    // Lance un nouveau thread pour chaque connexion
+                    new Client(s, properties);
+                }
+                catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
             }

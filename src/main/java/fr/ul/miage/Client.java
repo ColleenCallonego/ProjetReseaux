@@ -13,12 +13,20 @@ public class Client extends Thread{
     public Socket socket;
     public Properties properties;
 
+    /**
+     * Constructeur
+     * @param s
+     * @param p
+     */
     public Client(Socket s, Properties p){
         this.socket = s;
         this.properties = p;
-        start();
+        start(); //démarrer le Thread
     }
 
+    /**
+     * Méthode qui va être lancé au démarrage du Thread Client
+     */
     public void run(){
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -27,8 +35,11 @@ public class Client extends Thread{
             //récupération de la requête
             String s = in.readLine();
             System.out.println(s);
+
+            //récupération de l'host
             String host = in.readLine();
             System.out.println(host);
+
             if (host.length() >= host.indexOf(":")+2){
                 host = host.substring(host.indexOf(":") + 2);
             }
@@ -41,30 +52,37 @@ public class Client extends Thread{
         }
     }
 
+    /**
+     * Méthode pour envoyer une réponse au client
+     * @param host
+     * @param requete
+     * @param out
+     */
     public void getfilename(String host, String requete, PrintStream out){
         String filename = "";
         StringTokenizer st = new StringTokenizer(requete);
         try {
             if (st.hasMoreElements() && st.nextToken().equalsIgnoreCase("GET") && st.hasMoreElements()) {
                 filename += st.nextToken();
-            } else {
+            }
+            else {
                 throw new BadRequestException(); // Bad request
             }
-            //si le filename fini par "/" alors on doit accès au index.html du chemin
-            if ((!host.equals("www.verti.com") && !host.equals("www.dopetrope.com"))) {
-                if (filename.endsWith("/")){
+
+            if ((!host.equals("www.verti.com") && !host.equals("www.dopetrope.com"))) { //si la requête ne fait pas appel à un domaine
+                if (filename.endsWith("/")){ //si le filename fini par "/" alors on doit accéder au index.html du chemin
                     filename = properties.repertoireSites + "/" + filename + "index.html";
                 }
                 else{
                     filename = properties.repertoireSites + "/"  + filename;
                 }
             }
-            else if (host.equals("www.verti.com")){
-                if (filename.endsWith("/") || filename.endsWith("@")) {
+            else if (host.equals("www.verti.com")){ //si la requête fait appel au domaine www.verti.com
+                if (filename.endsWith("/") || filename.endsWith("@")) { //si la requête à les informations de connexion ou que c'est le premier appel du site
                     if (estProtege(properties.repertoireSites + "/verti/")){
                         Integer pos1 = filename.indexOf("@");
                         Integer pos2 = filename.lastIndexOf("@");
-                        if (pos1 == -1){
+                        if (pos1 == -1){ //si il n'y a pas "@"
                             throw new UnauthorizedException(); // Unauthorized
                         }
                         else{
@@ -91,8 +109,8 @@ public class Client extends Thread{
                     filename = properties.repertoireSites + "/verti/".concat(filename);
                 }
             }
-            else if (host.equals("www.dopetrope.com")){
-                if (filename.endsWith("/")) {
+            else if (host.equals("www.dopetrope.com")){ //si la requête fait appel au domaine www.verti.com
+                if (filename.endsWith("/") || filename.endsWith("@")) {
                     if (estProtege(properties.repertoireSites + "/dopetrope/")){
                         Integer pos1 = filename.indexOf("@");
                         Integer pos2 = filename.lastIndexOf("@");
@@ -129,8 +147,10 @@ public class Client extends Thread{
             }
             //pour remplacer les "/" par des "\"
             filename = filename.replace('/', File.separator.charAt(0));
-            System.out.println(filename);
+
+            //pour le contenu dynamique
             if (filename.endsWith(".php")){
+                //faire un appel pour faire une ligne de commande
                 Runtime run = Runtime.getRuntime();
                 Process process = run.exec("php " + filename);
                 String contenu = getContenu(process.getInputStream());
@@ -139,6 +159,7 @@ public class Client extends Thread{
                 out.close();
             }
             else{
+                //envoi de la réponse au client
                 InputStream f = new FileInputStream(filename);
                 out.print("HTTP/1.0 200 OK\r\n" + "Content-type: " + getMimeType(filename) + "\r\n\r\n");
                 byte[] a = new byte[4096];
@@ -147,38 +168,49 @@ public class Client extends Thread{
                     out.write(a, 0, n);
                 out.close();
             }
-        } catch (FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e) { //Erreur 404
             out.println("HTTP/1.0 404 Not Found\r\n" + "Content-type: text/html\r\n\r\n"
                     + "<html><head></head><body>" + " Error 404 - Page not found</body></html>\n");
             out.close();
             try {
                 socket.close();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
             }
-        } catch (BadRequestException e) {
+            catch (IOException x) {
+                System.out.println(x.getMessage());
+            }
+        }
+        catch (BadRequestException e) { //Erreur 400
             out.println("HTTP/1.0 400 Bad Request Not Found\r\n" + "Content-type: text/html\r\n\r\n"
                     + "<html><head></head><body>" + " Error 400 - Bad Request</body></html>\n");
             out.close();
             try {
                 socket.close();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
             }
-        } catch (UnauthorizedException e) {
+            catch (IOException x) {
+                System.out.println(x.getMessage());
+            }
+        }
+        catch (UnauthorizedException e) { //Erreur 401
             out.println("HTTP/1.0 401 Unauthorized\r\n" + "Content-type: text/html\r\n\r\n"
                     + "<html><head></head><body>" + " Error 401 - Unauthorized -- Write www[...]/@user:password@ to acces</body></html>\n");
             out.close();
             try {
                 socket.close();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
+            }
+            catch (IOException x) {
+                System.out.println(x.getMessage());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
+    /**
+     * Méthode pour obtenir le mineType d'un fichier
+     * @param filename
+     * @return
+     */
     public String getMimeType(String filename){
         String mimeType = "text/plain";
         if (filename.endsWith(".html") || filename.endsWith(".htm"))
@@ -192,6 +224,11 @@ public class Client extends Thread{
         return mimeType;
     }
 
+    /**
+     * Méthode pour savoir si un répertoire est protégé ou non
+     * @param chemin
+     * @return true si il est protégé, false sinon
+     */
     public Boolean estProtege(String chemin){
         System.out.println(chemin);
         File folder = new File(chemin);
@@ -204,34 +241,49 @@ public class Client extends Thread{
         return false;
     }
 
+    /**
+     * Méthode pour vérifier qu'un mot de passe correspond à un utilisateur
+     * @param scan Scanner qui contient le contenu du fichier .htpasswd
+     * @param user
+     * @param mdp
+     * @return true si le mot de passe correspond, false sinon
+     */
     public Boolean check(Scanner scan, String user, String mdp){
-        while (scan.hasNext()){
-            String s = scan.nextLine();
-            Integer pos = s.indexOf(":");
-            String FileUser = s.substring(0, pos);
-            String FileMdp = s.substring(pos + 1);
-            MessageDigest m = null;
-            try {
-                m = MessageDigest.getInstance("MD5");
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
+        try {
+            while (scan.hasNext()){
+                String s = scan.nextLine();
+                Integer pos = s.indexOf(":");
+                String FileUser = s.substring(0, pos);
+                String FileMdp = s.substring(pos + 1);
+
+                //hashage en md5 du mot de passe fourni par l'utilisateur
+                MessageDigest m = MessageDigest.getInstance("MD5");
+                m.reset();
+                m.update(mdp.getBytes());
+                byte[] digest = m.digest();
+                BigInteger bigInt = new BigInteger(1,digest);
+                String hashtext = bigInt.toString(16);
+                while(hashtext.length() < 32 ){
+                    hashtext = "0"+hashtext;
+                }
+                System.out.println(hashtext);
+                if (FileUser.equals(user) && FileMdp.equals(hashtext)){
+                    return true;
+                }
             }
-            m.reset();
-            m.update(mdp.getBytes());
-            byte[] digest = m.digest();
-            BigInteger bigInt = new BigInteger(1,digest);
-            String hashtext = bigInt.toString(16);
-            while(hashtext.length() < 32 ){
-                hashtext = "0"+hashtext;
-            }
-            System.out.println(hashtext);
-            if (FileUser.equals(user) && FileMdp.equals(hashtext)){
-                return true;
-            }
+            return false;
         }
-        return false;
+        catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
+    /**
+     * Méthode pour récuperer le contenu d'un fichier
+     * @param file
+     * @return
+     */
     public String getContenu (InputStream file){
         String contenu = "";
         Scanner scan = new Scanner(file);

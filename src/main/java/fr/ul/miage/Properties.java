@@ -4,6 +4,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+/**
+ * Classe pour stocker la configuration du serveurWeb
+ */
 public class Properties {
     public String address;
     public Integer port;
@@ -11,7 +14,7 @@ public class Properties {
 
     public Properties (){
         try {
-            FileInputStream file = new FileInputStream("properties");
+            FileInputStream file = new FileInputStream(".properties");
             Scanner scan = new Scanner(file);
             String s = "";
             while (scan.hasNext()){
