@@ -1,8 +1,11 @@
 package fr.ul.miage;
 
+import java.util.Properties;
+
 public class Main {
     public static void main(String[] args){
-        Serveur serveur = new Serveur("127.0.0.2");
+        Properties p = new Properties();
+        Serveur serveur = new Serveur(p.address, p);
         serveur.go();
     }
 }

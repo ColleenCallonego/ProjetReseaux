@@ -11,9 +11,11 @@ import java.util.StringTokenizer;
 
 public class Client extends Thread{
     public Socket socket;
+    public Properties properties;
 
-    public Client(Socket s){
+    public Client(Socket s, Properties p){
         this.socket = s;
+        this.properties = p;
         start();
     }
 
@@ -51,15 +53,15 @@ public class Client extends Thread{
             //si le filename fini par "/" alors on doit accès au index.html du chemin
             if ((!host.equals("www.verti.com") && !host.equals("www.dopetrope.com"))) {
                 if (filename.endsWith("/")){
-                    filename = "sites" + filename + "index.html";
+                    filename = properties.repertoireSites + "/" + filename + "index.html";
                 }
                 else{
-                    filename = "sites" + filename;
+                    filename = properties.repertoireSites + "/"  + filename;
                 }
             }
             else if (host.equals("www.verti.com")){
                 if (filename.endsWith("/") || filename.endsWith("@")) {
-                    if (estProtege("sites/verti/")){
+                    if (estProtege(properties.repertoireSites + "/verti/")){
                         Integer pos1 = filename.indexOf("@");
                         Integer pos2 = filename.lastIndexOf("@");
                         if (pos1 == -1){
@@ -71,10 +73,10 @@ public class Client extends Thread{
                             String user = userPassword.substring(0, pos3);
                             String mdp = userPassword.substring(pos3 + 1);
                             System.out.println(user + mdp);
-                            InputStream f = new FileInputStream("sites/verti/.htpasswd");
+                            InputStream f = new FileInputStream(properties.repertoireSites + "/verti/.htpasswd");
                             Scanner scan = new Scanner(f);
                             if (check(scan, user, mdp)){
-                                filename = "sites/verti/index.html";
+                                filename = properties.repertoireSites + "/verti/index.html";
                             }
                             else{
                                 throw new UnauthorizedException(); // Unauthorized
@@ -82,16 +84,16 @@ public class Client extends Thread{
                         }
                     }
                     else{
-                        filename = "sites/verti/" + filename + "index.html";
+                        filename = properties.repertoireSites + "/verti/" + filename + "index.html";
                     }
                 }
                 else {
-                    filename = "sites/verti/".concat(filename);
+                    filename = properties.repertoireSites + "/verti/".concat(filename);
                 }
             }
             else if (host.equals("www.dopetrope.com")){
                 if (filename.endsWith("/")) {
-                    if (estProtege("sites/dopetrope/")){
+                    if (estProtege(properties.repertoireSites + "/dopetrope/")){
                         Integer pos1 = filename.indexOf("@");
                         Integer pos2 = filename.lastIndexOf("@");
                         if (pos1 == -1){
@@ -103,10 +105,10 @@ public class Client extends Thread{
                             String user = userPassword.substring(0, pos3);
                             String mdp = userPassword.substring(pos3 + 1);
                             System.out.println(user + mdp);
-                            InputStream f = new FileInputStream("sites/dopetrope/.htpasswd");
+                            InputStream f = new FileInputStream(properties.repertoireSites + "/dopetrope/.htpasswd");
                             Scanner scan = new Scanner(f);
                             if (check(scan, user, mdp)){
-                                filename = "sites/dopetrope/index.html";
+                                filename = properties.repertoireSites + "/dopetrope/index.html";
                             }
                             else{
                                 throw new UnauthorizedException(); // Unauthorized
@@ -114,11 +116,11 @@ public class Client extends Thread{
                         }
                     }
                     else{
-                        filename = "sites/dopetrope/" + filename + "index.html";
+                        filename = properties.repertoireSites + "/dopetrope/" + filename + "index.html";
                     }
                 }
                 else {
-                    filename = "sites/dopetrope/".concat(filename);
+                    filename = properties.repertoireSites + "/dopetrope/".concat(filename);
                 }
             }
             //pour enlever tous les "/" au début du filename
