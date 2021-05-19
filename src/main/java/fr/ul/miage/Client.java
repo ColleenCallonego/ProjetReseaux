@@ -3,6 +3,7 @@ package fr.ul.miage;
 import java.io.*;
 import java.math.BigInteger;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
@@ -32,18 +33,13 @@ public class Client extends Thread{
             else{
                 host = "";
             }
-            InputStream f = getfilename(host, s, out);
-            byte[] a = new byte[4096];
-            int n;
-            while ((n = f.read(a)) > 0)
-                out.write(a, 0, n);
-            out.close();
+            getfilename(host, s, out);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public InputStream getfilename(String host, String requete, PrintStream out){
+    public void getfilename(String host, String requete, PrintStream out){
         String filename = "";
         StringTokenizer st = new StringTokenizer(requete);
         try {
@@ -132,9 +128,23 @@ public class Client extends Thread{
             //pour remplacer les "/" par des "\"
             filename = filename.replace('/', File.separator.charAt(0));
             System.out.println(filename);
-            InputStream f = new FileInputStream(filename);
-            out.print("HTTP/1.0 200 OK\r\n" + "Content-type: " + getMimeType(filename) + "\r\n\r\n");
-            return f;
+            if (filename.endsWith(".php")){
+                Runtime run = Runtime.getRuntime();
+                Process process = run.exec("php " + filename);
+                String contenu = getContenu(process.getInputStream());
+                out.print("HTTP/1.0 200 OK\r\n" + "Content-type: " + getMimeType(".html") + "\r\n\r\n");
+                out.write(contenu.getBytes(StandardCharsets.UTF_8));
+                out.close();
+            }
+            else{
+                InputStream f = new FileInputStream(filename);
+                out.print("HTTP/1.0 200 OK\r\n" + "Content-type: " + getMimeType(filename) + "\r\n\r\n");
+                byte[] a = new byte[4096];
+                int n;
+                while ((n = f.read(a)) > 0)
+                    out.write(a, 0, n);
+                out.close();
+            }
         } catch (FileNotFoundException e) {
             out.println("HTTP/1.0 404 Not Found\r\n" + "Content-type: text/html\r\n\r\n"
                     + "<html><head></head><body>" + " Error 404 - Page not found</body></html>\n");
@@ -162,8 +172,9 @@ public class Client extends Thread{
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return null;
     }
 
     public String getMimeType(String filename){
@@ -217,5 +228,14 @@ public class Client extends Thread{
             }
         }
         return false;
+    }
+
+    public String getContenu (InputStream file){
+        String contenu = "";
+        Scanner scan = new Scanner(file);
+        while (scan.hasNext()){
+            contenu += scan.nextLine();
+        }
+        return contenu;
     }
 }
