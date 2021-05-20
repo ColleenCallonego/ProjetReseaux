@@ -197,4 +197,4 @@ Il suffit de faire CONTROLE-C pour arrête le serveur avec la distribution binai
 ## CONCLUSION
 Ce projet a été assez difficile à réaliser mais ensemble nous y sommes arrivé. Même si toutes les fonctionnalités ne sont pas vraiment réalisées de manières correctes, 
 elles fonctionnent plutôt bien.  
-Nous sommes content de nous pour ce projet. :smile:
+Nous sommes content de nous pour ce projet. :smile: :unicorn: :unicorn:
