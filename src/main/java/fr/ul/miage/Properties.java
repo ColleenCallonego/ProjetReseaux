@@ -14,7 +14,7 @@ public class Properties {
 
     public Properties (){
         try {
-            FileInputStream file = new FileInputStream("../../.properties");
+            FileInputStream file = new FileInputStream(".properties");
             Scanner scan = new Scanner(file);
             String s = "";
             while (scan.hasNext()){
@@ -28,7 +28,7 @@ public class Properties {
                         this.port = Integer.decode(s.substring(pos + 1));
                         break;
                     case "repertoireSitesWeb":
-                        this.repertoireSites = "../../" + s.substring(pos + 1);
+                        this.repertoireSites = s.substring(pos + 1);
                         break;
                 }
             }
