@@ -1,5 +1,7 @@
 # PROJET DE RESEAUX
 
+## CARACTERISTIQUES 
+Version de JAVA utilisée pour ce projet : 11
 
 &nbsp;
 > Dans ce README vous allez découvrir les points suivants : 
@@ -40,7 +42,10 @@ Le serveur que nous devions réaliser devait :
 &nbsp;
 ## CE QUE NOTRE SERVEUR FAIT
 Voilà la liste de ce que notre serveur est capable de faire : 
-* Il se lance à partir d'un .bat 
+* Il se lance à partir d'un run.bat sur windows et se lancer à partir du fichier binaire run pour unix 
+  * Sur Windows ça fonctionne (normalement)
+  * Sur Linux ça fontionne (normalement) 
+  * Sur MacOs on ne sait pas (voir section *LES PROBLEMES/MANQUES DE NOTRE SERVEUR*)  
 * Il sait exploiter une requête GET 
 * Il affiche correctement les sites exemples fournis
 * Il gére les erreurs les plus courantes (400, 401, 403, 404)
@@ -59,7 +64,7 @@ Nous allons détailler cela ici.
 
 &nbsp;
 <ins>__1er problème__</ins> : avec notre projet maven, nous avons pu générer la distribution binaire pour Windows et pour Unix, la distribution Windows (run.bat) 
-fonctionne mais nous avons tester la distribution binaire unix sur un Mac et elle ne fonctionne pas vraiment ```Can't assign requested address```  
+fonctionne mais nous avons tester la distribution binaire unix sur un Mac et elle ne fonctionne pas vraiment ```Can't assign requested address```, nous pensons que c'est un problème d'adresse ou de port( i.e. on ne peut pas utiliser certaines adresses).
 
 
 &nbsp;
