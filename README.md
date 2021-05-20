@@ -106,6 +106,8 @@ conventionelle, lorsqu'un client essaie d'accéder à une ressource protégé, n
 * Un fichier index.php
   * Pour y accéder :127.0.0.2/index.php (changer le 127.0.0.2 en fonction de la configuration du serveur)
 
+
+&nbsp;
 ### Pour configurer le serveur
 Notre serveur est configurable avec le fichier ```.properties``` qui se trouve à la racine du projet (il est possible que vous ne le voyez pas car il peut être masqué, dans ce cas
 modifier les paramètres d'affichage de votre exploirateur de fichier pour qu'il vous montre les éléments cachés). 
@@ -118,6 +120,8 @@ repertoireSitesWeb=sites
 Vous pouvez donc changer l'adresse qu'écoute notre serveur, le port aussi.  
 Et vous pouvez modifier le nom où notre serveur va chercher les sites à afficher.
 
+
+&nbsp;
 ### Pour simuler les domaines 
 Les "domaines" que nous avons utiliser pour que ce projet marche en multisite, et que nous avons écrit dans notre fichier host sont : 
 ```
@@ -128,6 +132,8 @@ Les "domaines" que nous avons utiliser pour que ce projet marche en multisite, e
 Pour que les domaines marchent lorsque vous allez lancer notre serveur, vous devez rajouter les lignes ci-dessus dans le fichier host de votre ordinateur.
 (L'adresse peut être changé en fonction de l'adresse configurer dans le fichier .properties) 
 
+
+&nbsp;
 ### Pour créer un répertoire protégé et configurer les utilisateurs et mot de passe
 Pour protéger un répertoire il suffit d'ajout à la racine de ce répertoire un fichier ```.htpasswd```.  
 Une fois ce fichier créé vous ajouter les différents utilisateurs qui peuvent accèder à ce répertoire comme ceci : 
@@ -138,13 +144,18 @@ username3:password3_en_md5
 ...
 ```
 
-### A partir des sources 
+&nbsp;
+### Pour lancer le serveur à partir des sources 
 Il faut en premier ouvrir notre project avec un IDE. Et run le ```Main.java```.  
 
-### A partir d'une distribution binaire
+
+&nbsp;
+### Pour lancer le serveur à partir d'une distribution binaire
 Pour lancer la distribution binaire pour Windows il faut aller dans le dossier ```dindist-win``` puis dans le dossier ```bin```, et lancer le fichier run.bat.  
 Pour lancer la distribution binaire pour Unix il faut aller dans le dossier ```dindist-unix``` puis dans le dossier ```bin```, et lancer le fichier run.  
 
+
+&nbsp;
 ### Après avoir lancer le programme soit avec les sources soit avec le fichier binaire
 Une fois le programme lancé, nous devons aller sur un navigateur (Chrome, Firefox ...).  
 Une fois sur le navigateur plusieurs choix s'offre à nous :  
@@ -157,12 +168,12 @@ Deux noms de domaines sont gérer par ce serveur :
 * www.dopetrope.com
 > Notre serveur sécurise un répertoire seulement lors de l'utilisation de domaine 
 
-
 Dans la configuration initial du projet, le site www.verti.com est sécurisé et le site www.dopetrope.com n'est pas sécurisé.  
 Pour accéder au site verti, il suffit de taper  www.verti.com dans la barre d'adresse du navigateur. Une authentification vous sera demandé, si les données de connexions 
 que vous rentrés sont correctes vous aurez accès au site sinon non. 
 Pour accéder au site dopetrop, il suffit de taper  www.dopetrope.com dans la barre d'adresse du navigateur. 
 Une fois arriver dans le site, vous pourrez naviguer dedans comme dans tous les sites internents.
+
 
 &nbsp;
 <ins>__Pour une utilisation avec une adresse (exemple : 127.0.0.2)__</ins>  
@@ -173,10 +184,17 @@ Il faut faire attention, car lorsque vous taper un chemin il faut toujours fini 
 <ins>__Pour générer du contenu dynamique (php)__</ins>  
 Pour générer du contenu dynamique, cela marche comme pour l'utilisation simple du serveur (ci-dessus), il suffit de taper l'adresse suffit du chemin du fichier .php. 
 Par exemple ```127.0.0.2/index.php``` (le fichier index.php est disponible dans le répertoire ```sites```). 
-De cette manière lorsqu'un site fait appel à des fichiers .php notre serveur pourra les générer. 
+De cette manière lorsqu'un site fait appel à des fichiers .php notre serveur pourra les générer.   
+
+
+&nbsp;
+### Pour arrêter le serveur 
+Il suffit de stopper le programme dans l'IDE.    
+Il suffit de faire CONTROLE-C pour arrête le serveur avec la distribution binaire.   
+
 
 &nbsp;
 ## CONCLUSION
 Ce projet a été assez difficile à réaliser mais ensemble nous y sommes arrivé. Même si toutes les fonctionnalités ne sont pas vraiment réalisées de manières correctes, 
 elles fonctionnent plutôt bien.  
-Nous sommes content de nous pour ce projet.
+Nous sommes content de nous pour ce projet. :smile:
