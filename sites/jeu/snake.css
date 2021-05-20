@@ -1,0 +1,20 @@
+header{
+	width: 780px;
+	padding: 10px;
+	font-size: 3em;
+}
+#scoreDiv{
+	width: 780px;
+	margin: auto;
+	padding: 10px;
+	font-size: 200%; /*font-size: 2em;*/
+}
+#board{
+	width: 800px;
+	margin: auto;
+}
+#board > div{
+	width: 20px;						
+	height: 20px;
+	float: left;
+}

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html id="fond" class="fond1">
+<head>
+	<meta charset="utf-8"></meta>
+	<title>Morpion</title>
+	<link id="style" rel="stylesheet" href="stylesheet/style_classic.css"/>
+</head>
+<body>
+	<header id="titre">
+		<h1 class="text">Morpion</h1>
+	</header>
+
+	<main>
+
+	<div id="regles">
+		
+		<h2 class="text">Regles</h2>
+
+		<p class="text">Il y a deux joueurs, le premier joue avec le signe X et l’autre avec le signe O. Les deux joueurs remplissent alternativement les cellules vides d'un plateau trois fois trois.<br>L'objectif est de placer trois signes identiques sur une colonne, une ligne ou une diagonale.<br>Le jeu prend fin et se termine par un match nul si le panneau est entierement rempli et qu'aucun joueur n’arrive a atteindre l'objectif.<br><br>Bonne chance !</p>
+
+		<h2 class="text">Choix du theme</h2>
+
+		<div id="choix">
+
+		<div id="button1" class="button"><button type="button">Classic</button></div>
+		<div id="button2" class="button"><button type="button">DC Comics</button></div>
+		<div id="button3" class="button"><button type="button">Lord of the Rings</button></div>
+		<div id="button4" class="button"><button type="button">World of Warcraft</button></div>
+		<div id="button5" class="button"><button type="button">Cats</button></div>
+		<div id="button6" class="button"><button type="button">Kawaii</button></div>
+
+		</div>
+
+		<div id="button7"><button type="button">COMMENCER</button></div>
+
+
+	</div>
+
+
+
+	
+	<div id="damier" class="cache">
+
+		<div class="case" id="case1"></div>   <div class="case" id="case2"></div>   <div class="case" id="case3"></div>
+
+		<div class="case" id="case4"></div>   <div class="case" id="case5"></div>   <div class="case" id="case6"></div>
+
+		<div class="case" id="case7"></div>   <div class="case" id="case8"></div>   <div class="case" id="case9"></div>
+
+	</div>
+	
+
+
+
+	<div id="victoir1" class="cache">
+
+		<p class="text">VICTOIR DU JOUEUR !</p>
+
+		<div class="joueur1 gagnant"></div>
+
+		<div id="button8"><button type="button">RE-START</button></div>
+
+	</div>
+
+
+
+	<div id="victoir2" class="cache">
+		
+		<p class="text">VICTOIR DU JOUEUR !</p>
+
+		<div class="joueur2 gagnant"></div>
+
+		<div id="button9"><button type="button">RE-START</button></div>
+
+	</div>
+
+
+
+	<div id="nul" class="cache">
+		
+		<p class="text">MATCH NUL !</p>
+
+		<div id="button10"><button type="button"=>RE-START</button></div>
+
+	</div>
+
+	</main>
+
+	<footer id="membres">
+		<p class="text">Jeu du TIC-TAC-TOE realise par Colleen CALLONEGO, Vincent DROUOT et Gabriel COUROUX, etudiants en premiere annee de licence MIASHS; dans le cadre du cours de Technologie du Web.</p>
+	</footer>
+	 <script src="javascript/javascript.js"></script> 
+</body>
+</html>

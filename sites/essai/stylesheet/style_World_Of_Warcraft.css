@@ -1,0 +1,150 @@
+/*World of Warcraft*/
+
+/*COMMUN*/
+h1 {
+	text-align: center;
+}
+body {
+	text-align: center;
+}
+/*debut damier*/
+.case {
+	border: 2px solid grey;
+	float: left;
+	height: 300px;
+	width: 300px;
+	margin: 0;
+	background-color: white;
+}
+.case_lock {
+	border: 2px solid grey;
+	float: left;
+	height: 300px;
+	width: 300px;
+	margin: 0;
+}
+.case:hover {
+	border: 2px solid black;
+}
+#damier {
+	height: 912px;
+	width: 912px;
+	margin: auto;
+}
+.cache {
+	display: none;
+}
+/*fin damier*/
+
+/*choix*/
+.button {
+	border: 1px solid black;
+	float: left;
+	height: 200px;
+	width: 400px;
+	margin: 10px;
+}
+button {
+}
+#choix {
+	height: 666px;
+	width: 844px;
+	margin: auto;
+}
+#button1 button, #button2 button, #button3 button, #button4 button, #button5 button, #button6 button {
+	margin: 50px 0px 0px 0px;
+}
+/*fin choix*/
+.gagnant {
+	border: 1px solid black;
+	height: 300px;
+	width: 300px;
+	margin: auto;
+}
+#button8 button, #button9 button, #button10 button {
+	margin: 100px 0px 0px 0px;
+}
+#button7 {
+	margin: 50px 0px;
+}
+#membres {
+	margin: 100px 0px 0px 0px;
+}
+#button1 {
+	background: url(../images/tic_tac_toe_icone.jpg) no-repeat center;
+}
+#button2 {
+	background: url(../images/Justice_League_icone.jpg) no-repeat center;
+}
+#button3 {
+	background: url(../images/Mordor_icone.jpg) no-repeat center;
+}
+#button4 {
+	background: url(../images/dead_wings_icone.jpg) no-repeat center;
+}
+#button5 {
+	background: url(../images/Cat_icone.jpg) no-repeat center;
+}
+#button6 {
+	background: url(../images/Kimono_icone.jpg) no-repeat center;
+}
+/*COMMUN*/
+
+
+
+/*DIFFERANT*/
+@font-face {
+	font-family: "Life Craft";
+	src: url('../police/Life_Craft.ttf');
+}
+body {
+	font-family: "Life Craft";
+	font-size: 200%;
+}
+p {
+	margin: 1% 10%;
+	background-color: #5CFFD6;
+}
+h1,h2 {
+	margin-left: 42%;
+	margin-right: 42%; 
+	background-color: #5CFFD6;
+}
+#membres{
+	margin: none;
+	background-color: #5CFFD6;
+}
+#victoir1 p, #victoir2 p, #nul p {
+	margin-left: 40%;
+	margin-right: 40%; 
+	background-color: #FF6D6A;
+}
+.fond1 {
+	background: url(../images/The_Lich_King_VS_Illidan_Stormrage.jpg) no-repeat center fixed;
+	background-size: cover;
+}
+.fond2 {
+	background: url(../images/The_Lich_King_VS_Illidan_Stormrage.jpg) no-repeat center fixed;
+	background-size: cover;	
+}
+.fond3 {
+	background: url(../images/dead_wings.jpg) no-repeat center fixed;
+	background-size: cover;	
+}
+.fond_nul {
+	background: url(../images/dead_wings.jpg) no-repeat center fixed;
+	background-size: cover;	
+}
+/*debut joueur 1*/
+.joueur1 {
+	background: url(../images/alliance.jpg) no-repeat center;
+}
+/*fin joueure 1*/
+
+/*debut joueur 2*/
+.joueur2 {
+	background: url(../images/horde.jpg) no-repeat center;
+}
+/*fin joueure 2*/
+
+/*DIFFERANT*/
